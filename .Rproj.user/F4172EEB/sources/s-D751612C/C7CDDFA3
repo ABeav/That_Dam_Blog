@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1589499368556.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3964274389",
+    "id" : "C7CDDFA3",
+    "lastKnownWriteTime" : 1589499375,
+    "last_content_update" : 1589499375972,
+    "path" : "~/git/That_Dam_Blog/content/about/_index.md",
+    "project_path" : "content/about/_index.md",
+    "properties" : {
+        "cursorPosition" : "23,44",
+        "scrollLine" : "10"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "markdown"
+}

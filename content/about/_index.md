@@ -9,11 +9,13 @@ I am graduate student at Johns Hopkins School of Medicine. I am doing my thesis 
 
 I created this blog to help myself learn R and python and how to apply these tools to a data set. I also wanted to keep a log of posts explaining things for my own future reference because I contstantly forget the specifics of functions I use. My end goal is to have a career in data science and I thought this could be a good reference place for my work. 
 
-<br><br><br><br>
+<br><br>
 
 # Publications 
 
 * Soon!
+
+<br><br>
 
 # Links
 
@@ -22,6 +24,8 @@ I created this blog to help myself learn R and python and how to apply these too
 * [My GitGub](https://github.com/ABeav)
 
 * [Mugnier lab GitHub](https://github.com/mugnierlab)
+
+<br><br>
 
 # About this site 
 

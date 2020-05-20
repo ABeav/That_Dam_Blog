@@ -1,6 +1,6 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "That Dam Blog"
+title = "Data Log"
 theme = "hugo-future-imperfect"
 preserveTaxonomyNames = true
 paginate = 3
@@ -15,7 +15,7 @@ canonifyURLs = true
   # Sets the meta tag description
   description          = "A data science blog by Alex Beaver.Powered by Hugo using the Future Imperfect them by Julio Pescador."
   # Sets the navbarTitle that appears in the top left of the navigation bar
-  navbarTitle          = "That Dam Blog"
+  navbarTitle          = "Data Log"
   # Sets where "View More Posts" links
   viewMorePostLink     = "/blog/"
 
@@ -87,7 +87,7 @@ canonifyURLs = true
   # These are optional params related to the sidebar. They are recommended, but not
   # required for proper functionality. HTML is supported within the params.
 [params.intro]
-  header    = "That Dam Blog"
+  header    = "Data Log"
 
   paragraph = "A data science blog by Alex Beaver, a graduate student learning R and python."
   about     = "My name is Alex Beaver and I am a graduate student at Johns Hopkins. I am currently learning the art of data science and applying it to my research on the eukaryotic parasite T. brucei."

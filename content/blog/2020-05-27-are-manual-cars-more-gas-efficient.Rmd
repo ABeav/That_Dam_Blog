@@ -8,8 +8,8 @@ tags:
   - R
   - Tidyverse
 description: 'A look into the tidyverse cars dataset.'
-featured: 'manual_car.jpg'
-featuredalt: 'manual_car.jpg'
+featured: ''
+featuredalt: ''
 featuredpath: 'date'
 linktitle: ''
 type: post

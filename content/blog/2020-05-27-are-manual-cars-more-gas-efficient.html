@@ -1,0 +1,209 @@
+---
+title: Are Manual Cars More Gas Efficient?
+author: Alex Beaver
+date: '2020-05-27'
+slug: are-manual-cars-more-gas-efficient
+categories: []
+tags:
+  - R
+  - Tidyverse
+description: 'A look into the tidyverse cars dataset.'
+featured: 'manual_car.jpg'
+featuredalt: 'manual_car.jpg'
+featuredpath: 'date'
+linktitle: ''
+type: post
+---
+
+
+
+<p>For my first ever blog post, I thought I would start off with a simple question using a simple dataset. When I turned 16, I did what every 16 year-old in America does and immediately got behind the wheel of a car. Unlike most teenagers, the first car I got to drive had a weird third pedal and was hard to get moving. It was a manual. For the record, I still have nightmares about trying to start my old car on a steep hill.</p>
+<p>In the United States, manual cars are have definitely fallen out of fashion. Back in 2010, almost none of my other friends drove a manual. Whenever I gave people rides they were always surprised and would always ask, “Why do you not just drive an automatic?” My response was always the same, “Manual cars get better gas mileage.” Honestly, I have no idea if that’s true even in the slightest. So, I am going to try to answer that question.</p>
+<p><strong>Do manual cars get better gas mileage?</strong></p>
+<p>First thing to do is load in the data set. I said I was going to use a simple dataset and I meant it. I am using the mpg data that is preloaded with tidyverse.</p>
+<pre class="r"><code>library(tidyverse)
+library(viridis)
+mpg &lt;- mpg
+#image from # https://www.topspeed.com/cars/why-is-the-manual-transmission-living-on-borrowed-time-ar182081.html</code></pre>
+<p>Boom. That was easy.</p>
+<p>What does this data look like? (Luckily this data is already pretty cleaned up, so I don’t have to worry about that)</p>
+<pre class="r"><code>knitr::kable(head(mpg), &quot;pandoc&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<p>Cool. So, we have transmission (trans) and city (cty) and highway (hwy) gas mileage in miles per gallon. There are a few other columns that im not going to worry about right now. You can learn what all the columns mean exactly by using the command “?mpg”.</p>
+<p>First thing first, what is the average gas mileage across all automatic and manual transmission cars?</p>
+<pre class="r"><code># The trans column has a lot of different transmissions of automatic and manual transmissions, so I am going to simplify it first. 
+mpg &lt;- mpg %&gt;%
+  mutate(transmission = case_when(str_detect(trans, pattern = &#39;auto&#39;) ~ &#39;automatic&#39;, TRUE ~ &#39;manual&#39;))
+
+# making a boxplot
+ggplot(mpg, aes(x= transmission, y= hwy))+
+  geom_boxplot()+
+  theme_bw(base_size = 16)+
+  xlab(&#39;&#39;)+
+  ylab(&quot;Highway gas mileage&quot;)+
+  ggtitle(&quot;Highway gas mileage and transmission type&quot;, subtitle = &quot;A simple boxplot&quot;)</code></pre>
+<p><img src="/blog/2020-05-27-are-manual-cars-more-gas-efficient_files/figure-html/mpg_barchart-1.png" width="576" style="display: block; margin: auto;" />
+Just looking at this quick box plot it does look like manual cars on average get better highway gas mileage! It looks like there are some outliers, so let’s check out the distribution of the points as well.</p>
+<pre class="r"><code># making a violin plot with a dotplot
+ggplot(mpg, aes(x= transmission, y= hwy))+
+  geom_violin(aes(fill = transmission), width=.8) +
+  geom_boxplot(width=0.1, alpha = .2)+
+  geom_dotplot(binaxis=&#39;y&#39;, stackdir= &quot;center&quot; , dotsize=.4, position=position_dodge(.5))+
+  theme_bw(base_size = 16)+
+  theme(legend.position =  &quot;none&quot;)+
+  xlab(&#39;&#39;)+
+  ylab(&quot;Highway gas mileage&quot;)+
+  scale_fill_viridis(discrete = TRUE, alpha = .8)+ # Adding some color
+  ggtitle(&quot;Another look at gas mileage and transmission type&quot;, subtitle = &quot;A violin plot, a boxplot, and a dotplot overlayed&quot;)</code></pre>
+<p><img src="/blog/2020-05-27-are-manual-cars-more-gas-efficient_files/figure-html/violin_plot-1.png" width="672" style="display: block; margin: auto;" />
+The data is a little bimodal, which is interesting. It looks like on average manual cars are definitely more efficient on the highway. Also, the car with the best highway gas mileage is a manual car!</p>
+<p>Let’s see if we can see why there is a bimodal distribution.</p>
+<pre class="r"><code># Creating a violin plot with colored points by cylinder number. Had to switch to geom_point because geom_dotplot overlaps points of different groups.
+ggplot(mpg, aes(x= transmission, y= hwy))+
+  geom_violin(width=.8) +
+  geom_boxplot(width=0.1, alpha = .2)+
+  geom_point(aes(color= as.character(cyl)), size = 3, position = position_dodge(width = .25))+
+  theme_bw(base_size = 16)+
+  xlab(&#39;&#39;)+
+  ylab(&quot;Highway gas mileage&quot;)+
+  labs(color = &quot;cylinders&quot;)+
+  scale_color_viridis( discrete = TRUE,alpha = .65)+
+  ggtitle(&quot;Do number of cylinders effect gas mileage?&quot;)</code></pre>
+<p><img src="/blog/2020-05-27-are-manual-cars-more-gas-efficient_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It looks like the bimodality is due to different sizes of motors. I’m sure the engine displacement (dipl) also plays into gas efficiency. Bigger motor = more vroom vroom = more gas. Makes sense.</p>
+<p>Let’s take one more look at engine size and its effects on gas mileage.</p>
+<pre class="r"><code># making a scatter plot with a line of best fit applied
+ggplot(mpg, aes(x= displ, y = hwy, color = transmission))+
+  geom_point(position = &quot;jitter&quot;)+
+  geom_smooth(se = FALSE)+
+  theme_bw()+
+  xlab(&quot;Engine displacement (litres)&quot;)+
+  ylab(&quot;Highway gas mileage&quot;)+
+  scale_color_viridis( discrete = TRUE)+
+  ggtitle(&quot;Highway gas mileage vs engine size&quot;)</code></pre>
+<p><img src="/blog/2020-05-27-are-manual-cars-more-gas-efficient_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The manual cars with large engines get a lot better gas mileage than automatic cars with large engines. I wasn’t exactly expecting that. However, there are also not nearly enough data points of manual cars with larger engines to make this call for certain.</p>
+<p><strong>When we control for make, model, and engine size do the manual versions get better gas mileage?</strong> While, I was scanning this data set I saw that there was some data that had the same make and model cars, but with different transmissions.</p>
+<pre class="r"><code># My goal here is to get groups of the same cars with the only thing being different is the transmission and directly compare gas mileage. I used add_tally() to see which car transmissions had two pairs (aka two transmision transmissions) and filtered everything that had less. There might be an easier way to do this, but this is how i thought about it.
+mpg_cars &lt;- mpg %&gt;%
+  group_by(manufacturer, model, year, cyl, displ, fl) %&gt;%
+  add_tally()%&gt;%
+  filter(n&gt;1)%&gt;%
+  mutate(car = paste(manufacturer, model, year, cyl, displ, fl))%&gt;%
+  ungroup() %&gt;%
+  select(car, transmission, hwy) %&gt;%
+  distinct() %&gt;%
+  group_by(car) %&gt;%
+  add_tally() %&gt;%
+  filter(n &gt; 1) %&gt;%
+  ungroup() %&gt;%
+  mutate(car = fct_reorder(car, hwy)) %&gt;%
+  filter( car !=    &quot;dodge caravan 2wd 1999 6 3.8 r&quot;) # I only wanted paired manual and automatics cars and this guy was bein tricky so I just removed dodge caravans. 
+
+ggplot(head(mpg_cars, 40), aes(x = car, y = hwy, fill = transmission))+
+  geom_col( position = &quot;dodge&quot;)+ # The default for geom_col is position = &quot;stacked&quot;
+  coord_flip()+
+  xlab(&#39;&#39;)+
+  ylab(&#39;Highway gas mileage&#39;)+
+  scale_fill_viridis( discrete = TRUE, alpha = .95)+
+  theme_minimal()+
+  ggtitle(&quot;Gas mileage broken down by make and model&quot;, subtitle = &quot;Comparing transmission type&quot;)</code></pre>
+<p><img src="/blog/2020-05-27-are-manual-cars-more-gas-efficient_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" />
+It appears that manual cars usually get slightly better gas mileage than the automatic versions of the car. This isn’t always true and the two versions have the same gas mileage sometimes. There are also a few cases where the automatic car get better gas mileage! <strong>In conclusion, manual cars get slightly better gas mileage when comparing automatic vs manual transmissions in the same make and model.</strong></p>
+<p>There are still a lot of unanswered questions that I wasn’t able to address. A big one I wanted to look at was the change over time of gas efficiency in cars; however, this data set only has two time points, 1999 and 2008, so that wasn’t feasible. I looked online and clearly, as technology improves, so does gas efficiency. In addition, in the past 5 years automatic cars have gotten more efficient and have started to surpass manual cars in gas mileage. Apparently, this is also dependent on the way someone drives. Somone with a heavy foot gets worse gas mileage. It would be really cool if we had a dataset that could examine driver tendencies and gas mileage! In conslusion, using the preloaded tidyverse cars dataset manual cars often get slightly better gas mileage.</p>
